@@ -6,8 +6,8 @@ class Tippy extends StatefulWidget {
 }
 
 class _TippyState extends State<Tippy> {
-  int _tipPercent = 0;
-  int noOfPersons = 1;
+  int _tipPercent = 10;
+  int _noOfPersons = 1;
   double _billAmount = 0.0;
 
   @override
@@ -41,7 +41,17 @@ class _TippyState extends State<Tippy> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: <Widget>[
                     Text('Total per person'),
-                    Text('\$123'),
+                    SizedBox(
+                      height: 10.0,
+                    ),
+                    Text(
+                      '\$ ${calculateTotalPerPerson(_billAmount, _noOfPersons, _tipPercent)}',
+                      style: TextStyle(
+                        fontSize: 35.0,
+                        fontWeight: FontWeight.normal,
+                        color: Color(0xFF6908D6),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -91,7 +101,9 @@ class _TippyState extends State<Tippy> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                noOfPersons > 1 ? noOfPersons-- : noOfPersons;
+                                _noOfPersons > 1
+                                    ? _noOfPersons--
+                                    : _noOfPersons;
                               });
                             },
                             child: Container(
@@ -116,7 +128,7 @@ class _TippyState extends State<Tippy> {
                             ),
                           ),
                           Text(
-                            '$noOfPersons',
+                            '$_noOfPersons',
                             style: TextStyle(
                               color: Color(0xFF6908D6),
                               fontWeight: FontWeight.bold,
@@ -126,7 +138,7 @@ class _TippyState extends State<Tippy> {
                           InkWell(
                             onTap: () {
                               setState(() {
-                                noOfPersons++;
+                                _noOfPersons++;
                               });
                             },
                             child: Container(
@@ -166,7 +178,7 @@ class _TippyState extends State<Tippy> {
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Text(
-                          '\$34',
+                          '\$ ${calculateTotalTip(_billAmount, _noOfPersons, _tipPercent)}',
                           style: TextStyle(
                             color: Color(0xFF6908D6),
                             fontWeight: FontWeight.bold,
@@ -191,7 +203,7 @@ class _TippyState extends State<Tippy> {
                       Slider(
                         min: 0,
                         divisions: 10,
-                        inactiveColor: Colors.grey,
+                        inactiveColor: Colors.grey.shade400,
                         activeColor: Color(0xFF6908D6),
                         max: 100,
                         value: _tipPercent.toDouble(),
@@ -210,5 +222,20 @@ class _TippyState extends State<Tippy> {
         ),
       ),
     );
+  }
+
+  calculateTotalTip(double billAmt, int splitBy, int tipPercent) {
+    double totalTip = 0.0;
+    if (billAmt <= 0 || billAmt.toString().isEmpty || billAmt == null) {
+    } else {
+      totalTip = (billAmt * tipPercent) / 100;
+    }
+    return totalTip;
+  }
+
+  calculateTotalPerPerson(double billAmt, int splitBy, int tipPercent) {
+    var totalPerPerson =
+        (calculateTotalTip(billAmt, splitBy, tipPercent) + billAmt) / splitBy;
+    return totalPerPerson.toStringAsFixed(2);
   }
 }
