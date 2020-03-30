@@ -178,7 +178,7 @@ class _TippyState extends State<Tippy> {
                       Padding(
                         padding: const EdgeInsets.all(18.0),
                         child: Text(
-                          '\$ ${calculateTotalTip(_billAmount, _noOfPersons, _tipPercent)}',
+                          '\$ ${(calculateTotalTip(_billAmount, _noOfPersons, _tipPercent)).toStringAsFixed(2)}',
                           style: TextStyle(
                             color: Color(0xFF6908D6),
                             fontWeight: FontWeight.bold,
