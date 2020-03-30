@@ -176,6 +176,33 @@ class _TippyState extends State<Tippy> {
                       ),
                     ],
                   ),
+
+                  ///Slider
+                  Column(
+                    children: <Widget>[
+                      Text(
+                        '$_tipPercent %',
+                        style: TextStyle(
+                          color: Color(0xFF6908D6),
+                          fontWeight: FontWeight.bold,
+                          fontSize: 17.0,
+                        ),
+                      ),
+                      Slider(
+                        min: 0,
+                        divisions: 10,
+                        inactiveColor: Colors.grey,
+                        activeColor: Color(0xFF6908D6),
+                        max: 100,
+                        value: _tipPercent.toDouble(),
+                        onChanged: (double newValue) {
+                          setState(() {
+                            _tipPercent = newValue.round();
+                          });
+                        },
+                      ),
+                    ],
+                  ),
                 ],
               ),
             ),
